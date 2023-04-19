@@ -1,0 +1,48 @@
+import bpy
+
+# Define the maze as a string
+maze = '''
+.---.---.---.---.---.---.---.....................
+|   |       |   |       |   |   |   |   |   |   |
+.   .---.   .---.   .   .   .   .---.   .---.   .
+|       |   |       |   |   |   |       |       |
+.---.   .---.   .---.   .---.   .   .   .---.   .
+|       |   |       |   |       |   |   |       |
+.   .---.   .---.---.   .---.   .   .---.   .---.
+|   |       |           |       |   |       |   |
+.   .   .   .---.---.   .   .---.   .   .---.   .
+|   |   |   |           |       |   |           |
+.   .   .---.   .---.---.---.   .---.---.   .---.
+|   |   |   |   |               |           |   |
+.   .   .   .---.   .---.---.---.---.---.---.   .
+|   |   |       |   |   |           |           |
+.---.   .---.---.---.   .---.---.---.---.   .---.
+|           |       |   |       |           |   |
+.   .---.---.   .---.   .   .---.   .---.---.   .
+|   |       |   |       |   |       |           |
+.   .   .---.   .---.---.   .   .---.---.   .---.
+|   |   |               |       |           |   |
+.---.---.---.---.---.---.---.---.---.---.---.....
+'''
+
+# Set the size of the cubes
+cube_size = 2
+
+# Split the maze into rows
+rows = maze.strip().split('\n')
+
+# Loop through each row and column of the maze
+for i, row in enumerate(rows):
+    for j, char in enumerate(row):
+        # If the character is a space, skip it
+        if char == ' ':
+            continue
+        
+        # Create a cube
+        bpy.ops.mesh.primitive_cube_add(size=cube_size, location=(j*cube_size, -(i*cube_size), 0))
+        cube = bpy.context.active_object
+        
+        # Set the cube's material to red
+        mat = bpy.data.materials.new(name="Material")
+        mat.diffuse_color = (1, 0, 0, 1)
+        cube.data.materials.append(mat)
